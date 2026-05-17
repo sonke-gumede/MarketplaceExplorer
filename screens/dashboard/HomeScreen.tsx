@@ -1,14 +1,10 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { H2 } from "../../components/typography";
+import { Container } from "../../components/containers";
 
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-    </View>
+    <Container>
+      <H2 weight="bold">Home</H2>
+    </Container>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold' },
-});
