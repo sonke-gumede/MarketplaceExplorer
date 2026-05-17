@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
-import styled from "styled-components/native";
-import { H2, H4, H6 } from "../../components/typography";
+
 import {
   Header,
   SearchRow,
   SearchBar,
   SearchInput,
   FilterButton,
+  Container,
 } from "../../components/containers";
 
 export default function HomeScreen() {
@@ -16,12 +16,8 @@ export default function HomeScreen() {
   const [search, setSearch] = useState("");
 
   return (
-    <Screen>
+    <Container>
       <Header>
-        <Greeting>
-          <H4 weight="bold">Find your perfect product</H4>
-        </Greeting>
-
         <SearchRow>
           <SearchBar>
             <Ionicons
@@ -49,15 +45,6 @@ export default function HomeScreen() {
           </FilterButton>
         </SearchRow>
       </Header>
-    </Screen>
+    </Container>
   );
 }
-
-const Screen = styled.View`
-  flex: 1;
-  background-color: ${({ theme }) => theme.colors.default};
-`;
-
-const Greeting = styled.View`
-  gap: 4px;
-`;
