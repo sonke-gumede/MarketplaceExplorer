@@ -1,8 +1,8 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/app/HomeScreen';
-import SearchScreen from '../screens/app/SearchScreen';
-import CartScreen from '../screens/app/CartScreen';
-import ProfileScreen from '../screens/app/ProfileScreen';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeScreen from "../screens/dashboard/HomeScreen";
+import SearchScreen from "../screens/dashboard/SearchScreen";
+import CartScreen from "../screens/dashboard/CartScreen";
+import ProfileScreen from "../screens/dashboard/ProfileScreen";
 
 export type TabParamList = {
   Home: undefined;
