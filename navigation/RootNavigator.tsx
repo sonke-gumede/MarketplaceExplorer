@@ -4,7 +4,7 @@ import TabNavigator from "./TabNavigator";
 
 export type RootStackParamList = {
   Auth: undefined;
-  App: undefined;
+  Dashboard: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -15,7 +15,7 @@ export default function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {!isAuthenticated ? (
-        <Stack.Screen name="App" component={TabNavigator} />
+        <Stack.Screen name="Dashboard" component={TabNavigator} />
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />
       )}
