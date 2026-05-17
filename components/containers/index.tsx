@@ -46,3 +46,28 @@ export const FilterButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
 `;
+
+export const SkeletonGrid = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 6px;
+`;
+
+export const StateContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  gap: 16px;
+`;
+
+export const RetryButton = styled.TouchableOpacity`
+  padding: 12px 32px;
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const FooterContainer = styled.View`
+  align-items: center;
+  padding: 20px;
+`;
