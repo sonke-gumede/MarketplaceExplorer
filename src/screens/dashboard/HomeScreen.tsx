@@ -10,7 +10,6 @@ import {
   SearchRow,
   SearchBar,
   SearchInput,
-  FilterButton,
   SkeletonGrid,
   StateContainer,
   RetryButton,
@@ -149,14 +148,6 @@ export default function HomeScreen() {
               returnKeyType="search"
             />
           </SearchBar>
-          <FilterButton activeOpacity={0.8}>
-            <Ionicons
-              name="options-outline"
-              size={20}
-              color={theme.colors.light}
-              accessible={false}
-            />
-          </FilterButton>
         </SearchRow>
       </Header>
 
