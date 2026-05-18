@@ -14,13 +14,14 @@ export interface ProductCardProps {
   lowStock: boolean;
   eligible: boolean;
   onAddToCart: () => void;
+  onPress?: () => void;
 }
 
-const ProductCard = memo(({ product, cartQuantity, premium, lowStock, eligible, onAddToCart }: ProductCardProps) => {
+const ProductCard = memo(({ product, cartQuantity, premium, lowStock, eligible, onAddToCart, onPress }: ProductCardProps) => {
   const theme = useTheme();
 
   return (
-    <Card>
+    <Card onPress={onPress} activeOpacity={0.95}>
       <ImageContainer>
         <ProductImage source={{ uri: product.thumbnail }} resizeMode="cover" />
         {premium && (
@@ -92,7 +93,7 @@ const ProductCard = memo(({ product, cartQuantity, premium, lowStock, eligible, 
 
 export default ProductCard;
 
-const Card = styled.View`
+const Card = styled.TouchableOpacity`
   flex: 1;
   margin: 6px;
   background-color: ${({ theme }) => theme.colors.light};
