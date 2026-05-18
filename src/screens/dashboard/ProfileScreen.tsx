@@ -14,6 +14,7 @@ import {
 } from "../../components/containers";
 import Button from "../../components/buttons/Button";
 import AvatarCard from "../../components/cards/AvatarCard";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const USER = {
   name: "John Doe",
@@ -39,6 +40,7 @@ const ORDERS = { total: 34, pending: 2, delivered: 31, cancelled: 1 };
 
 export default function ProfileScreen() {
   const theme = useTheme();
+  const logout = useAuthStore((s) => s.logout);
 
   return (
     <Container>
@@ -171,7 +173,7 @@ export default function ProfileScreen() {
           label="Log Out"
           variant="ghost"
           danger
-          onPress={() => {}}
+          onPress={logout}
           style={{ alignSelf: "stretch", alignItems: "center", paddingVertical: 12 }}
         />
       </ScrollView>
