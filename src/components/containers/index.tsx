@@ -58,3 +58,42 @@ export const FooterContainer = styled.View`
   align-items: center;
   padding: 20px;
 `;
+
+export const Section = styled.View`
+  background-color: ${({ theme }) => theme.colors.light};
+  border-radius: 20px;
+  padding: 16px;
+  gap: 12px;
+  elevation: 2;
+  shadow-color: #000;
+  shadow-offset: 0px 1px;
+  shadow-opacity: 0.05;
+  shadow-radius: 6px;
+`;
+
+export const SectionHeader = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 4px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${({ theme }) => theme.colors.lightGrey};
+`;
+
+export const InfoRowContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+`;
+
+export const IconBox = styled.View`
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.default};
+  align-items: center;
+  justify-content: center;
+`;
+
+export const InfoText = styled.View`
+  gap: 1px;
+`;
