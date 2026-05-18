@@ -175,27 +175,46 @@ A 400 ms debounce sits between the text input and the query key. Without it, eve
 
 ---
 
-## CI / CD
+## Expo & EAS
 
-Builds and deployments are **manually triggered** via GitHub Actions (`workflow_dispatch`). There are no automatic builds on push.
+This app is built and distributed using [Expo Application Services (EAS)](https://expo.dev/eas). EAS handles two separate concerns:
 
-**To deploy:**
-1. Go to **Actions → 🚀 EAS Update (CI)** in the GitHub UI
-2. Click **Run workflow**
-3. Select the target environment: `development`, `staging`, or `production`
+- **EAS Update** — pushes a new JS bundle over-the-air to devices already running the app. No app store review required. Used for JS-only changes (UI, logic, assets).
+- **EAS Build** — compiles a full native binary (`.apk` for Android, `.ipa` for iOS) on Expo's cloud build servers. Required whenever native code or `app.json` changes (e.g. splash screen, permissions, new native packages).
+
+### Building an APK
+
+APKs are built on Expo's cloud infrastructure — no local Android SDK or Xcode required.
+
+1. Go to **Actions → 🚀 Deployment (CI)** in the GitHub UI
+2. Click **Run workflow** (top-right of the workflow list)
+3. Select the target environment from the dropdown: `development`, `staging`, or `production`
 4. Click **Run workflow**
 
-The workflow runs `eas update` (OTA JS bundle) followed by `eas build` (native binary) for the selected channel, then runs `semantic-release` to cut a versioned release.
+The workflow does the following in order:
+1. **EAS Update** — publishes the latest JS bundle to the selected channel
+2. **EAS Build** — queues a native Android build on Expo's servers for the selected profile
+3. **Semantic Release** — tags a versioned release on GitHub based on commit messages
+
+Once the build is queued, Expo compiles it remotely. You can monitor progress at [expo.dev](https://expo.dev) under your project's builds tab. When complete, the APK download link is available there.
+
+> For `development` and `staging`, builds are distributed internally (direct APK download). For `production`, the binary is submitted to the Play Store.
 
 **EAS build profiles** (`eas.json`):
 
 | Profile | Distribution | Channel |
 |---------|-------------|---------|
-| `development` | Internal | `development` |
-| `staging` | Internal | `staging` |
-| `production` | Store | `production` |
+| `development` | Internal (APK) | `development` |
+| `staging` | Internal (APK) | `staging` |
+| `production` | Play Store | `production` |
 
-**Required secrets:** `EXPO_TOKEN`
+**Required secret:** `EXPO_TOKEN` — generate one at expo.dev → Account Settings → Access Tokens, then add it to the repo's GitHub Secrets.
+
+---
+
+## CI / CD
+
+Deployments are **manually triggered** via `workflow_dispatch` — there are no automatic builds on push.
 
 ---
 
