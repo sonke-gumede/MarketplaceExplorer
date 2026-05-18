@@ -5,6 +5,7 @@ import styled from "styled-components/native";
 import { CartItem } from "../../store/useCartStore";
 import { H5, H6 } from "../typography";
 import IconButton from "../buttons/IconButton";
+import { toRand } from "../../utils/currency";
 
 export interface CartCardProps {
   item: CartItem;
@@ -30,9 +31,9 @@ export default function CartCard({
           {item.product.title}
         </H6>
         <H5 weight="bold" color="primary">
-          ${(item.product.price * item.quantity).toFixed(2)}
+          {toRand(item.product.price * item.quantity)}
         </H5>
-        <H6 color="text">${item.product.price.toFixed(2)} each</H6>
+        <H6 color="text">{toRand(item.product.price)} each</H6>
       </ItemInfo>
       <ItemActions>
         <IconButton
