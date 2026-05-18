@@ -12,9 +12,9 @@ import {
   SearchInput,
   SkeletonGrid,
   StateContainer,
-  RetryButton,
   FooterContainer,
 } from "../../components/containers";
+import Button from "../../components/buttons/Button";
 import Chip from "../../components/chips/Chip";
 import CardSkeleton from "../../components/cards/CardSkeleton";
 import ProductCard from "../../containers/products/ProductCard";
@@ -101,11 +101,7 @@ export default function HomeScreen() {
           <H5 color="error" weight="semiBold">
             Something went wrong
           </H5>
-          <RetryButton onPress={() => refetch()} activeOpacity={0.8}>
-            <H6 color="light" weight="semiBold">
-              Retry
-            </H6>
-          </RetryButton>
+          <Button label="Retry" size="sm" onPress={() => refetch()} />
         </StateContainer>
       ) : (
         <StateContainer>
