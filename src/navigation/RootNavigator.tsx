@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthNavigator from "./AuthNavigator";
-import TabNavigator from "./TabNavigator";
+import DashboardNavigator from "./DashboardNavigator";
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -15,7 +15,7 @@ export default function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {!isAuthenticated ? (
-        <Stack.Screen name="Dashboard" component={TabNavigator} />
+        <Stack.Screen name="Dashboard" component={DashboardNavigator} />
       ) : (
         <Stack.Screen name="Auth" component={AuthNavigator} />
       )}
