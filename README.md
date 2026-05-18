@@ -93,9 +93,11 @@ The active tab icon and label use `tabBarActiveTintColor` set to the primary the
 
 ### Splash Screen
 
-The splash screen is managed by `expo-splash-screen` configured via the plugin in `app.json`. The full-screen gradient image (primary `#1DC5EB` → secondary `#00FFFF`) is applied with `resizeMode: "cover"`.
+The splash screen uses a two-layer approach to work around Android 12+'s splash screen API, which forces any native image into a small centered icon regardless of `resizeMode`.
 
-In `App.tsx`, `SplashScreen.preventAutoHideAsync()` locks the splash open at module evaluation time. `SplashScreen.setOptions({ fade: true, duration: 400 })` gives a smooth fade-out. The splash is only dismissed in the root `View`'s `onLayout` callback — after the provider tree has rendered and the first layout pass has completed.
+**Native layer** (`app.json` plugin): `expo-splash-screen` is configured with `backgroundColor: "#1DC5EB"` and the splash image with `resizeMode: "contain"`. This satisfies the Android build (which requires a `splashscreen_logo` drawable to be generated) and provides an instant solid-color background before the JS bundle loads.
+
+**JS overlay layer** (`App.tsx`): An `Animated.View` with `StyleSheet.absoluteFill` renders the splash image as a React Native `Image` with `resizeMode="cover"` — this truly fills every pixel of the screen. `SplashScreen.preventAutoHideAsync()` keeps the native splash locked until the overlay is laid out, at which point `hideAsync()` is called and the native layer disappears invisibly underneath the overlay. Once the app tree is ready, the overlay fades out over 500 ms and is removed from the view hierarchy.
 
 ### Theming
 
