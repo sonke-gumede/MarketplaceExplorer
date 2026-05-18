@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 import styled from "styled-components/native";
-import { H2, H6 } from "../typography";
+import { H3, H6 } from "../typography";
 import Button from "../buttons/Button";
 import IconButton from "../buttons/IconButton";
 import Input from "../inputs/Input";
@@ -23,7 +23,7 @@ export default function LoginFormCard({
 
   return (
     <Card>
-      <H2 weight="bold">Welcome back</H2>
+      <H3 weight="bold">Welcome back</H3>
       <H6 color="text">Sign in to your account</H6>
 
       <Input
