@@ -10,6 +10,7 @@ import AppTheme from './src/theme';
 import RootNavigator from './src/navigation/RootNavigator';
 
 SplashScreen.preventAutoHideAsync();
+SplashScreen.setOptions({ fade: true, duration: 400 });
 
 const queryClient = new QueryClient({
   defaultOptions: {
