@@ -1,4 +1,4 @@
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { TouchableOpacity, TouchableOpacityProps, StyleProp, ViewStyle } from "react-native";
 import styled from "styled-components/native";
 import { H5, H6 } from "../typography";
 
@@ -8,6 +8,7 @@ export interface ButtonProps
   variant?: "primary" | "ghost";
   size?: "md" | "sm";
   danger?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function Button({
@@ -17,10 +18,11 @@ export default function Button({
   danger = false,
   disabled = false,
   onPress,
+  style,
 }: ButtonProps) {
   if (variant === "ghost") {
     return (
-      <TouchableOpacity onPress={onPress} disabled={disabled} activeOpacity={0.7}>
+      <TouchableOpacity onPress={onPress} disabled={disabled} activeOpacity={0.7} style={style}>
         <H6 color={danger ? "error" : "primary"}>{label}</H6>
       </TouchableOpacity>
     );
@@ -35,6 +37,7 @@ export default function Button({
       activeOpacity={0.8}
       size={size}
       $disabled={disabled}
+      style={style}
     >
       <Label color="light" weight="semiBold">
         {label}
