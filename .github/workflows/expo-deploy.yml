@@ -1,11 +1,17 @@
 name: 🚀 EAS Update (CI)
 
 on:
-  push:
-    branches:
-      - main
-      - staging
-      - development
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment"
+        required: true
+        default: "development"
+        type: choice
+        options:
+          - development
+          - staging
+          - production
 
 permissions:
   contents: write # needed to push tags and release assets
@@ -35,16 +41,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Detect environment from branch
+      - name: Set environment
         id: env
-        run: |
-          if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "env=production" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
-            echo "env=staging" >> $GITHUB_OUTPUT
-          else
-            echo "env=development" >> $GITHUB_OUTPUT
-          fi
+        run: echo "env=${{ inputs.environment }}" >> $GITHUB_OUTPUT
 
       - name: EAS Update
         run: yarn eas update --channel ${{ steps.env.outputs.env }} --message "$(git log -1 --pretty=%B)"
