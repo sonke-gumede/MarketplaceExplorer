@@ -2,6 +2,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   fetchProducts,
   fetchCategories,
+  fetchProductById,
   PAGE_LIMIT,
   SortBy,
   SortOrder,
@@ -47,4 +48,21 @@ export const useCategories = () =>
     queryKey: ["categories"],
     queryFn: fetchCategories,
     staleTime: Infinity,
+  });
+
+export const useProduct = (id: number) =>
+  useQuery({
+    queryKey: ["product", id],
+    queryFn: () => fetchProductById(id),
+    staleTime: 5 * 60 * 1000,
+  });
+
+export const useRelatedProducts = (category: string, excludeId: number) =>
+  useQuery({
+    queryKey: ["related", category, excludeId],
+    queryFn: () => fetchProducts({ category }),
+    enabled: !!category,
+    staleTime: 5 * 60 * 1000,
+    select: (data) =>
+      data.products.filter((p) => p.id !== excludeId).slice(0, 10),
   });
