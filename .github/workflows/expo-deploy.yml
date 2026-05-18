@@ -50,6 +50,6 @@ jobs:
         run: yarn eas update --channel ${{ steps.env.outputs.env }} --message "$(git log -1 --pretty=%B)"
 
       - name: EAS Build (native binary)
-        run: yarn eas build --platform android --profile ${{ steps.env.outputs.env }}
+        run: yarn eas build --platform android --profile ${{ steps.env.outputs.env }} --non-interactive
       - name: Semantic Release
         run: npx semantic-release
