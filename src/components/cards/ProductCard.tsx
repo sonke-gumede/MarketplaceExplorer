@@ -18,79 +18,97 @@ export interface ProductCardProps {
   onPress?: () => void;
 }
 
-const ProductCard = memo(({ product, cartQuantity, premium, lowStock, eligible, onAddToCart, onPress }: ProductCardProps) => {
-  const theme = useTheme();
+const ProductCard = memo(
+  ({
+    product,
+    cartQuantity,
+    premium,
+    lowStock,
+    eligible,
+    onAddToCart,
+    onPress,
+  }: ProductCardProps) => {
+    const theme = useTheme();
 
-  return (
-    <Card onPress={onPress} activeOpacity={0.95}>
-      <ImageContainer>
-        <ProductImage source={{ uri: product.thumbnail }} resizeMode="cover" />
-        {premium && (
-          <PremiumBadge>
-            <H6 color="light" weight="semiBold">
-              ✦ Premium
-            </H6>
-          </PremiumBadge>
-        )}
-        {lowStock && (
-          <LowStockBadge>
-            <H6 color="light" weight="semiBold">
-              Almost Sold Out
-            </H6>
-          </LowStockBadge>
-        )}
-      </ImageContainer>
-
-      <CardBody>
-        <CategoryLabel color="text">{product.category}</CategoryLabel>
-        <H5 weight="semiBold" numberOfLines={2}>
-          {product.title}
-        </H5>
-        {product.brand ? <H6 color="text">{product.brand}</H6> : null}
-
-        <PriceRow>
-          <H4 weight="bold" color="primary">
-            {toRand(product.price)}
-          </H4>
-          {product.discountPercentage > 0 && (
-            <DiscountBadge>
-              <H6 color="light" weight="semiBold">
-                -{Math.round(product.discountPercentage)}%
-              </H6>
-            </DiscountBadge>
-          )}
-        </PriceRow>
-
-        <RatingRow>
-          <Ionicons
-            name="star"
-            size={12}
-            color={theme.colors.primary}
-            accessible={false}
+    return (
+      <Card onPress={onPress} activeOpacity={0.95}>
+        <ImageContainer>
+          <ProductImage
+            source={{ uri: product.thumbnail }}
+            resizeMode="cover"
           />
-          <H6 color="text"> {product.rating.toFixed(1)}</H6>
-          <H6 color="text">  ·  </H6>
-          <H6 color={product.stock === 0 ? "error" : "text"}>
-            {product.stock === 0 ? "Out of stock" : `${product.stock} left`}
-          </H6>
-        </RatingRow>
+          {premium && (
+            <PremiumBadge>
+              <H6 color="light" weight="semiBold">
+                ✦ Premium
+              </H6>
+            </PremiumBadge>
+          )}
+          {lowStock && (
+            <LowStockBadge>
+              <H6 color="light" weight="semiBold">
+                Almost Sold Out
+              </H6>
+            </LowStockBadge>
+          )}
+        </ImageContainer>
 
-        {!eligible && (
-          <H6 color="error">
-            {product.stock === 0 ? "Out of stock" : "Low rating — unavailable"}
-          </H6>
-        )}
+        <CardBody>
+          <CategoryLabel color="text">{product.category}</CategoryLabel>
+          <H5 weight="semiBold" numberOfLines={2}>
+            {product.title}
+          </H5>
+          {product.brand ? <H6 color="text">{product.brand}</H6> : null}
+          {!eligible && (
+            <H6 color="error">
+              {product.stock === 0
+                ? "Out of stock"
+                : "Low rating — unavailable"}
+            </H6>
+          )}
+          <Spacer />
+          <PriceRow>
+            <H4 weight="bold" color="primary">
+              {toRand(product.price)}
+            </H4>
+            {product.discountPercentage > 0 && (
+              <DiscountBadge>
+                <H6 color="light" weight="semiBold">
+                  -{Math.round(product.discountPercentage)}%
+                </H6>
+              </DiscountBadge>
+            )}
+          </PriceRow>
 
-        <Button
-          label={cartQuantity > 0 ? `In Cart (${cartQuantity})` : "Add to Cart"}
-          onPress={onAddToCart}
-          disabled={!eligible}
-          size="sm"
-        />
-      </CardBody>
-    </Card>
-  );
-});
+          <RatingRow>
+            <Ionicons
+              name="star"
+              size={12}
+              color={theme.colors.primary}
+              accessible={false}
+            />
+            <H6 color="text"> {product.rating.toFixed(1)}</H6>
+            <H6 color="text"> · </H6>
+            <H6 color={product.stock === 0 ? "error" : "text"}>
+              {product.stock === 0 ? "Out of stock" : `${product.stock} left`}
+            </H6>
+          </RatingRow>
+
+          <ButtonContainer>
+            <Button
+              label={
+                cartQuantity > 0 ? `In Cart (${cartQuantity})` : "Add to Cart"
+              }
+              onPress={onAddToCart}
+              disabled={!eligible}
+              size="sm"
+            />
+          </ButtonContainer>
+        </CardBody>
+      </Card>
+    );
+  },
+);
 
 export default ProductCard;
 
@@ -136,6 +154,7 @@ const LowStockBadge = styled.View`
 `;
 
 const CardBody = styled.View`
+  flex: 1;
   padding: 10px;
   gap: 4px;
 `;
@@ -162,3 +181,10 @@ const RatingRow = styled.View`
   align-items: center;
 `;
 
+const Spacer = styled.View`
+  flex: 1;
+`;
+
+const ButtonContainer = styled.View`
+  padding-top: 8px;
+`;
