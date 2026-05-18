@@ -1,4 +1,4 @@
-name: 🚀 EAS Update (CI)
+name: 🚀 Deployment (CI)
 
 on:
   workflow_dispatch:
