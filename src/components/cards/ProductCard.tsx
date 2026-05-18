@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 import { Product } from "../../api/products";
 import { H4, H5, H6 } from "../typography";
+import Button from "../buttons/Button";
 
 export interface ProductCardProps {
   product: Product;
@@ -78,16 +79,12 @@ const ProductCard = memo(({ product, cartQuantity, premium, lowStock, eligible, 
           </H6>
         )}
 
-        <AddToCartButton
+        <Button
+          label={cartQuantity > 0 ? `In Cart (${cartQuantity})` : "Add to Cart"}
           onPress={onAddToCart}
           disabled={!eligible}
-          eligible={eligible}
-          activeOpacity={0.8}
-        >
-          <H6 color="light" weight="semiBold">
-            {cartQuantity > 0 ? `In Cart (${cartQuantity})` : "Add to Cart"}
-          </H6>
-        </AddToCartButton>
+          size="sm"
+        />
       </CardBody>
     </Card>
   );
@@ -163,11 +160,3 @@ const RatingRow = styled.View`
   align-items: center;
 `;
 
-const AddToCartButton = styled.TouchableOpacity<{ eligible: boolean }>`
-  margin-top: 6px;
-  padding: 10px;
-  border-radius: 10px;
-  align-items: center;
-  background-color: ${({ theme, eligible }) =>
-    eligible ? theme.colors.primary : theme.colors.lightGrey};
-`;
