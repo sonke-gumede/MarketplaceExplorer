@@ -21,6 +21,22 @@ export interface Product {
   description: string;
 }
 
+export interface Review {
+  rating: number;
+  comment: string;
+  date: string;
+  reviewerName: string;
+}
+
+export interface ProductDetail extends Product {
+  reviews: Review[];
+  availabilityStatus: string;
+  warrantyInformation?: string;
+  shippingInformation?: string;
+  returnPolicy?: string;
+  tags?: string[];
+}
+
 export interface ProductsResponse {
   products: Product[];
   total: number;
@@ -73,5 +89,11 @@ export const fetchProducts = async ({
 export const fetchCategories = async (): Promise<Category[]> => {
   const res = await fetch(`${BASE_URL}/products/categories`);
   if (!res.ok) throw new Error("Failed to fetch categories");
+  return res.json();
+};
+
+export const fetchProductById = async (id: number): Promise<ProductDetail> => {
+  const res = await fetch(`${BASE_URL}/products/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch product");
   return res.json();
 };
