@@ -21,6 +21,7 @@ import ProductCard from "../../containers/products/ProductCard";
 import { useProducts, useCategories } from "../../hooks/useProducts";
 import { useFilterStore } from "../../store/useFilterStore";
 import { useDebounceSearch } from "../../hooks/useDebounceSearch";
+import SortPicker from "../../components/sort/SortPicker";
 import { Product } from "../../api/products";
 
 export default function HomeScreen() {
@@ -29,6 +30,8 @@ export default function HomeScreen() {
   const setSearch = useFilterStore((s) => s.setSearch);
   const category = useFilterStore((s) => s.category);
   const setCategory = useFilterStore((s) => s.setCategory);
+  const sort = useFilterStore((s) => s.sort);
+  const setSort = useFilterStore((s) => s.setSort);
 
   useDebounceSearch();
 
@@ -144,6 +147,7 @@ export default function HomeScreen() {
               returnKeyType="search"
             />
           </SearchBar>
+          <SortPicker sort={sort} onSelect={setSort} />
         </SearchRow>
       </Header>
 
