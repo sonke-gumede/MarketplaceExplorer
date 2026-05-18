@@ -20,7 +20,7 @@
       "package": "com.marketplaceexplorer.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1DC5EB"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
