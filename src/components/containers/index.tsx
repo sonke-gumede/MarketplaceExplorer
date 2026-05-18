@@ -10,8 +10,6 @@ export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.light};
   padding: 20px 20px 24px;
   gap: 20px;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
 `;
 
 export const SearchRow = styled.View`
