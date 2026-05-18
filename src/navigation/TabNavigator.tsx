@@ -9,6 +9,7 @@ import {
   CartIcon,
   ProfileIcon,
 } from "../components/icons/TabIcons";
+import { useCartStore } from "../store/useCartStore";
 
 export type TabParamList = {
   Home: undefined;
@@ -20,6 +21,8 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export default function TabNavigator() {
+  const itemCount = useCartStore((s) => s.getItemCount());
+
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen
@@ -38,6 +41,7 @@ export default function TabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <CartIcon color={color} size={size} />
           ),
+          tabBarBadge: itemCount > 0 ? itemCount : undefined,
         }}
       />
       <Tab.Screen
