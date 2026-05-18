@@ -1,19 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/dashboard/HomeScreen";
-import SearchScreen from "../screens/dashboard/SearchScreen";
 import CartScreen from "../screens/dashboard/CartScreen";
 import ProfileScreen from "../screens/dashboard/ProfileScreen";
-import {
-  HomeIcon,
-  SearchIcon,
-  CartIcon,
-  ProfileIcon,
-} from "../components/icons/TabIcons";
+import { HomeIcon, CartIcon, ProfileIcon } from "../components/icons/TabIcons";
 import { useCartStore } from "../store/useCartStore";
 
 export type TabParamList = {
   Home: undefined;
-  Search: undefined;
   Cart: undefined;
   Profile: undefined;
 };
@@ -50,15 +43,6 @@ export default function TabNavigator() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <ProfileIcon color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <SearchIcon color={color} size={size} />
           ),
         }}
       />
