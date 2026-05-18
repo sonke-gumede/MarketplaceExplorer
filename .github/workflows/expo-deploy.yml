@@ -1,0 +1,55 @@
+name: 🚀 EAS Update (CI)
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+      - development
+
+permissions:
+  contents: write # needed to push tags and release assets
+  issues: write # needed to comment on issues
+  pull-requests: write # needed to comment on PRs
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CI: true
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22.21.1"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Detect environment from branch
+        id: env
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "env=production" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
+            echo "env=staging" >> $GITHUB_OUTPUT
+          else
+            echo "env=development" >> $GITHUB_OUTPUT
+          fi
+
+      - name: EAS Update
+        run: yarn eas update --channel ${{ steps.env.outputs.env }} --message "$(git log -1 --pretty=%B)"
+
+      - name: EAS Build (native binary)
+        run: yarn eas build --platform android --profile ${{ steps.env.outputs.env }}
+      - name: Semantic Release
+        run: npx semantic-release
