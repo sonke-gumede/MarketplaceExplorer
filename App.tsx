@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ThemeProvider } from 'styled-components/native';
 import { StatusBar } from 'expo-status-bar';
-import AppTheme from './theme';
-import RootNavigator from './navigation/RootNavigator';
+import AppTheme from './src/theme';
+import RootNavigator from './src/navigation/RootNavigator';
 
 const queryClient = new QueryClient({
   defaultOptions: {
