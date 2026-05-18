@@ -15,6 +15,7 @@ import { DashboardStackParamList } from "../../navigation/DashboardNavigator";
 import { useProduct, useRelatedProducts } from "../../hooks/useProducts";
 import { useCartStore } from "../../store/useCartStore";
 import { Review } from "../../api/products";
+import { toRand } from "../../utils/currency";
 import { H2, H3, H4, H5, H6 } from "../../components/typography";
 import { Container, StateContainer } from "../../components/containers";
 import Button from "../../components/buttons/Button";
@@ -137,12 +138,12 @@ export default function ProductDetailScreen() {
           {/* Price */}
           <PriceRow>
             <H3 weight="bold" color="primary">
-              ${product.price.toFixed(2)}
+              {toRand(product.price)}
             </H3>
             {hasDiscount && (
               <>
                 <OriginalPrice color="text">
-                  ${originalPrice.toFixed(2)}
+                  {toRand(originalPrice)}
                 </OriginalPrice>
                 <DiscountBadge>
                   <H6 color="light" weight="semiBold">

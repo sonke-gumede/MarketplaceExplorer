@@ -1,6 +1,7 @@
 import styled from "styled-components/native";
 import { H4, H5, H6 } from "../typography";
 import Button from "../buttons/Button";
+import { toRand } from "../../utils/currency";
 
 export interface CartSummaryCardProps {
   subtotal: number;
@@ -21,19 +22,19 @@ export default function CartSummaryCard({
     <SummaryCard>
       <SummaryRow>
         <H5>Subtotal</H5>
-        <H5>${subtotal.toFixed(2)}</H5>
+        <H5>{toRand(subtotal)}</H5>
       </SummaryRow>
       {hasDiscount && (
         <SummaryRow>
           <H6 color="primary">Bulk discount (10%)</H6>
-          <H6 color="primary">-${discountAmount.toFixed(2)}</H6>
+          <H6 color="primary">-{toRand(discountAmount)}</H6>
         </SummaryRow>
       )}
       <Divider />
       <SummaryRow>
         <H4 weight="bold">Total</H4>
         <H4 weight="bold" color="primary">
-          ${total.toFixed(2)}
+          {toRand(total)}
         </H4>
       </SummaryRow>
       <Button label="Checkout" onPress={onCheckout} />

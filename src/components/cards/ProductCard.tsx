@@ -6,6 +6,7 @@ import { useTheme } from "styled-components/native";
 import { Product } from "../../api/products";
 import { H4, H5, H6 } from "../typography";
 import Button from "../buttons/Button";
+import { toRand } from "../../utils/currency";
 
 export interface ProductCardProps {
   product: Product;
@@ -49,7 +50,7 @@ const ProductCard = memo(({ product, cartQuantity, premium, lowStock, eligible, 
 
         <PriceRow>
           <H4 weight="bold" color="primary">
-            ${product.price.toFixed(2)}
+            {toRand(product.price)}
           </H4>
           {product.discountPercentage > 0 && (
             <DiscountBadge>
