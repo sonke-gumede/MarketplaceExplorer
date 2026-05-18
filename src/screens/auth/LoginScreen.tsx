@@ -1,9 +1,10 @@
 import { KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 import styled from "styled-components/native";
 import { Container } from "../../components/containers";
-import { H1, H6 } from "../../components/typography";
+import { H1, H2, H6 } from "../../components/typography";
 import Button from "../../components/buttons/Button";
 import LoginFormCard from "../../components/cards/LoginFormCard";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -13,43 +14,41 @@ export default function LoginScreen() {
   const login = useAuthStore((s) => s.login);
 
   return (
-    <Container>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
+    <SafeAreaView style={{ flex: 1 }}>
+      <Container>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <BrandArea>
-            <LogoCircle>
-              <Ionicons
-                name="storefront"
-                size={36}
-                color={theme.colors.light}
-                accessible={false}
-              />
-            </LogoCircle>
-            <H1 weight="bold" color="primary">
-              Marketplace
-            </H1>
-            <H6 color="text">Discover products you'll love</H6>
-          </BrandArea>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <BrandArea>
+              <LogoCircle>
+                <Ionicons
+                  name="storefront"
+                  size={36}
+                  color={theme.colors.light}
+                  accessible={false}
+                />
+              </LogoCircle>
+              <H2 weight="bold" color="primary">
+                Marketplace
+              </H2>
+            </BrandArea>
 
-          <LoginFormCard
-            onLogin={login}
-            onForgotPassword={() => {}}
-          />
+            <LoginFormCard onLogin={login} onForgotPassword={() => {}} />
 
-          <SignUpRow>
-            <H6 color="text">Don't have an account?</H6>
-            <Button label="Sign Up" variant="ghost" onPress={() => {}} />
-          </SignUpRow>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </Container>
+            <SignUpRow>
+              <H6 color="text">Don't have an account?</H6>
+              <Button label="Sign Up" variant="ghost" onPress={() => {}} />
+            </SignUpRow>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </Container>
+    </SafeAreaView>
   );
 }
 
