@@ -13,9 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.marketplaceexplorer.app"
     },
     "android": {
+      "package": "com.marketplaceexplorer.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -25,6 +27,13 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "owner": "sonke",
+    "runtimeVersion": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "bf39b6d4-e0b1-408d-a601-9bc5324bd0b8"
+      }
     }
   }
 }
