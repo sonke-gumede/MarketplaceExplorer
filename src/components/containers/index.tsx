@@ -38,14 +38,6 @@ export const SearchInput = styled(TextInput)`
   font-family: ${({ theme }) => theme.fonts.family};
 `;
 
-export const FilterButton = styled.TouchableOpacity`
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.primary};
-  align-items: center;
-  justify-content: center;
-`;
 
 export const SkeletonGrid = styled.View`
   flex-direction: row;
@@ -61,11 +53,6 @@ export const StateContainer = styled.View`
   gap: 16px;
 `;
 
-export const RetryButton = styled.TouchableOpacity`
-  padding: 12px 32px;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.primary};
-`;
 
 export const FooterContainer = styled.View`
   align-items: center;
