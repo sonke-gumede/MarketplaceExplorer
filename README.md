@@ -59,16 +59,16 @@ MarketplaceExplorer/
 
 ## Features
 
-| Feature | Details |
-|---------|---------|
-| **Product grid** | Infinite-scroll 2-column grid powered by FlashList |
-| **Search** | Debounced (400 ms) full-text search |
-| **Category filter** | Horizontal chip list; tap to toggle |
-| **Sorting** | Bottom-sheet picker — Price ↑, Price ↓, Highest Rated; tapping the active option deselects it |
-| **Product detail** | Full detail screen with related products |
-| **Cart** | Add/remove/update quantity; enforces stock ceiling |
-| **Bulk discount** | 10% off when cart subtotal exceeds R5,000 |
-| **Auth** | Login screen with auth-gated navigation |
+| Feature             | Details                                                                                       |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| **Product grid**    | Infinite-scroll 2-column grid powered by FlashList                                            |
+| **Search**          | Debounced (400 ms) full-text search                                                           |
+| **Category filter** | Horizontal chip list; tap to toggle                                                           |
+| **Sorting**         | Bottom-sheet picker — Price ↑, Price ↓, Highest Rated; tapping the active option deselects it |
+| **Product detail**  | Full detail screen with related products                                                      |
+| **Cart**            | Add/remove/update quantity; enforces stock ceiling                                            |
+| **Bulk discount**   | 10% off when cart subtotal exceeds R5,000                                                     |
+| **Auth**            | Login screen with auth-gated navigation                                                       |
 
 ---
 
@@ -103,26 +103,26 @@ A single `AppTheme` object (colors, font sizes, font weights, font family) is pr
 
 **Theme colors**
 
-| Token | Value |
-|-------|-------|
-| `primary` | `#1DC5EB` |
+| Token       | Value     |
+| ----------- | --------- |
+| `primary`   | `#1DC5EB` |
 | `secondary` | `#00FFFF` |
-| `default` | `#F4F4F4` |
-| `text` | `#909090` |
+| `default`   | `#F4F4F4` |
+| `text`      | `#909090` |
 | `lightGrey` | `#DCDCDC` |
-| `light` | `#FFFFFF` |
-| `black` | `#000000` |
+| `light`     | `#FFFFFF` |
+| `black`     | `#000000` |
 
 ### Business Rules
 
 Product rules are isolated to pure functions in `src/utils/productRules.ts`:
 
-| Rule | Condition |
-|------|-----------|
-| **Premium badge** | `rating >= 4.5` AND `price >= $1000` |
-| **Low stock badge** | `0 < stock < 10` |
-| **Cart eligibility** | `stock > 0` AND `rating >= 3` |
-| **Bulk discount** | 10% off when cart subtotal exceeds $5,000 |
+| Rule                 | Condition                                 |
+| -------------------- | ----------------------------------------- |
+| **Premium badge**    | `rating >= 4.5` AND `price >= $1000`      |
+| **Low stock badge**  | `0 < stock < 10`                          |
+| **Cart eligibility** | `stock > 0` AND `rating >= 3`             |
+| **Bulk discount**    | 10% off when cart subtotal exceeds $5,000 |
 
 Keeping rules as pure functions makes them independently testable and decoupled from any component or store.
 
@@ -147,6 +147,7 @@ Manages cart items with actions for add, remove, and quantity update. `addItem` 
 Manages authentication state. `RootNavigator` subscribes to this store to conditionally render the `AuthNavigator` or `TabNavigator`.
 
 Zustand was chosen over Context + useReducer because:
+
 - Subscriptions are selector-based: a component re-renders only when the slice of state it selects changes.
 - No provider wrapping required.
 - Computed values (`getSubtotal`, `getFinalTotal`, `getItemCount`) live inside the store alongside the state they derive from.
@@ -192,6 +193,7 @@ APKs are built on Expo's cloud infrastructure — no local Android SDK or Xcode 
 4. Click **Run workflow**
 
 The workflow does the following in order:
+
 1. **EAS Update** — publishes the latest JS bundle to the selected channel
 2. **EAS Build** — queues a native Android build on Expo's servers for the selected profile
 3. **Semantic Release** — tags a versioned release on GitHub based on commit messages
@@ -202,11 +204,11 @@ Once the build is queued, Expo compiles it remotely. You can monitor progress at
 
 **EAS build profiles** (`eas.json`):
 
-| Profile | Distribution | Channel |
-|---------|-------------|---------|
+| Profile       | Distribution   | Channel       |
+| ------------- | -------------- | ------------- |
 | `development` | Internal (APK) | `development` |
-| `staging` | Internal (APK) | `staging` |
-| `production` | Play Store | `production` |
+| `staging`     | Internal (APK) | `staging`     |
+| `production`  | Play Store     | `production`  |
 
 **Required secret:** `EXPO_TOKEN` — generate one at expo.dev → Account Settings → Access Tokens, then add it to the repo's GitHub Secrets.
 
@@ -223,14 +225,8 @@ Deployments are **manually triggered** via `workflow_dispatch` — there are no 
 **Zustand over Redux / Context**
 Zustand has a minimal API and no boilerplate, which suits a project of this scope. Redux would offer better devtools and a stricter action-based model but adds significant ceremony for little benefit at this scale.
 
-**No persistence**
-Cart and filter state live in memory only — they reset on app restart. Adding `zustand/middleware`'s `persist` with `AsyncStorage` would fix this but was not in scope.
-
 **DummyJSON API limitations**
 The API does not support combined search + category filtering in a single request. Filtering is applied server-side by category only; search queries ignore the active category filter. A production API would expose compound query parameters.
 
 **FlashList `estimatedItemSize`**
 The value of `310` is an approximation of card height. Cards with long titles or missing brands will differ. An inaccurate estimate causes FlashList to miscalculate initial scroll position but does not affect correctness — items still render and recycle correctly.
-
-**No offline support**
-React Query's stale cache provides some resilience (stale data is shown while refetching fails) but there is no explicit offline mode, background sync, or `NetInfo`-based retry strategy.
