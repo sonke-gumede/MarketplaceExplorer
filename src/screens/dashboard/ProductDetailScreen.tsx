@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 import styled from "styled-components/native";
 import { DashboardStackParamList } from "../../navigation/DashboardNavigator";
-import { useProduct, useRelatedProducts } from "../../hooks/useProducts";
+import { useGetProduct, useGetRelatedProducts } from "../../graphql/products";
 import { useCartStore } from "../../store/useCartStore";
 import { Review } from "../../api/products";
 import { toRand } from "../../utils/currency";
@@ -33,8 +33,8 @@ export default function ProductDetailScreen() {
   const route = useRoute<DetailRoute>();
   const { productId } = route.params;
 
-  const { data: product, isLoading, isError } = useProduct(productId);
-  const { data: related } = useRelatedProducts(
+  const { data: product, isLoading, isError } = useGetProduct(productId);
+  const { data: related } = useGetRelatedProducts(
     product?.category ?? "",
     productId
   );
@@ -113,7 +113,7 @@ export default function ProductDetailScreen() {
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
-            keyExtractor={(_, i) => String(i)}
+            keyExtractor={(_: string, i: number) => String(i)}
             onMomentumScrollEnd={handleScroll}
             renderItem={({ item }) => (
               <CarouselImage source={{ uri: item }} resizeMode="cover" />
@@ -169,7 +169,7 @@ export default function ProductDetailScreen() {
           {/* Tags */}
           {product.tags && product.tags.length > 0 && (
             <TagsRow>
-              {product.tags.map((tag) => (
+              {product.tags.map((tag: string) => (
                 <Tag key={tag}>
                   <H6 color="text">{tag}</H6>
                 </Tag>
@@ -219,7 +219,7 @@ export default function ProductDetailScreen() {
               <SectionTitle weight="semiBold">
                 Reviews ({product.reviews.length})
               </SectionTitle>
-              {product.reviews.map((review, i) => (
+              {product.reviews.map((review: Review, i: number) => (
                 <ReviewCard key={i} review={review} />
               ))}
             </>

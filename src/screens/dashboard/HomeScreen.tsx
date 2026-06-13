@@ -18,16 +18,17 @@ import Button from "../../components/buttons/Button";
 import Chip from "../../components/chips/Chip";
 import CardSkeleton from "../../components/cards/CardSkeleton";
 import ProductCard from "../../containers/products/ProductCard";
-import { useProducts, useCategories } from "../../hooks/useProducts";
 import { useFilterStore } from "../../store/useFilterStore";
 import { useDebounceSearch } from "../../hooks/useDebounceSearch";
 import SortPicker from "../../components/sort/SortPicker";
 import { Product } from "../../api/products";
+import { useGetProducts } from "../../graphql/products";
 
 export default function HomeScreen() {
   const theme = useTheme();
   const search = useFilterStore((s) => s.search);
   const setSearch = useFilterStore((s) => s.setSearch);
+  const debouncedSearch = useFilterStore((s) => s.debouncedSearch);
   const category = useFilterStore((s) => s.category);
   const setCategory = useFilterStore((s) => s.setCategory);
   const sort = useFilterStore((s) => s.sort);
@@ -36,7 +37,7 @@ export default function HomeScreen() {
   useDebounceSearch();
 
   const {
-    data,
+    data: allProducts,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -44,19 +45,36 @@ export default function HomeScreen() {
     isError,
     refetch,
     isRefetching,
-  } = useProducts();
+  } = useGetProducts(20);
 
-  const { data: categoriesData } = useCategories();
+  const allCategories = useMemo(() => {
+    const types = Array.from(
+      new Set(allProducts.map((p) => p.category).filter(Boolean)),
+    );
+    return [
+      { slug: "", name: "All" },
+      ...types.map((t) => ({ slug: t, name: t })),
+    ];
+  }, [allProducts]);
 
-  const products = useMemo(
-    () => data?.pages.flatMap((p) => p.products) ?? [],
-    [data],
-  );
-
-  const allCategories = useMemo(
-    () => [{ slug: "", name: "All" }, ...(categoriesData ?? [])],
-    [categoriesData],
-  );
+  const products = useMemo(() => {
+    let filtered = allProducts;
+    if (debouncedSearch) {
+      const q = debouncedSearch.toLowerCase();
+      filtered = filtered.filter((p) => p.title.toLowerCase().includes(q));
+    }
+    if (category) {
+      filtered = filtered.filter((p) => p.category === category);
+    }
+    if (sort === "price_asc") {
+      filtered = [...filtered].sort((a, b) => a.price - b.price);
+    } else if (sort === "price_desc") {
+      filtered = [...filtered].sort((a, b) => b.price - a.price);
+    } else if (sort === "rating_desc") {
+      filtered = [...filtered].sort((a, b) => b.rating - a.rating);
+    }
+    return filtered;
+  }, [allProducts, debouncedSearch, category, sort]);
 
   const handleEndReached = useCallback(() => {
     if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -156,7 +174,6 @@ export default function HomeScreen() {
         keyExtractor={(item) => String(item.id)}
         renderItem={renderProduct}
         numColumns={2}
-        estimatedItemSize={310}
         ListHeaderComponent={ListHeader}
         ListEmptyComponent={ListEmpty}
         ListFooterComponent={ListFooter}

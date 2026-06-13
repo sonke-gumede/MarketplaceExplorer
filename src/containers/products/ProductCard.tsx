@@ -13,7 +13,7 @@ const ProductCard = memo(({ product }: { product: Product }) => {
   const navigation = useNavigation<Nav>();
   const addItem = useCartStore((s) => s.addItem);
   const cartQuantity = useCartStore(
-    (s) => s.items.find((i) => i.product.id === product.id)?.quantity ?? 0
+    (s) => s.items.find((i) => i.product.id === product.id)?.quantity ?? 0,
   );
 
   return (
@@ -24,7 +24,9 @@ const ProductCard = memo(({ product }: { product: Product }) => {
       lowStock={isLowStock(product)}
       eligible={canAddToCart(product)}
       onAddToCart={() => addItem(product)}
-      onPress={() => navigation.navigate("ProductDetail", { productId: product.id })}
+      onPress={() =>
+        navigation.navigate("ProductDetail", { productId: product.id })
+      }
     />
   );
 });
