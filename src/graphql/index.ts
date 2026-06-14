@@ -13,4 +13,14 @@ export const client = new ApolloClient({
     },
   }),
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      // Return cache first, then update from network
+      fetchPolicy: "cache-and-network",
+    },
+    query: {
+      // Use cache if available, otherwise fetch
+      fetchPolicy: "cache-first",
+    },
+  },
 });

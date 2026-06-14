@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigator from "./TabNavigator";
-import ProductDetailScreen from "../screens/dashboard/ProductDetailScreen";
+import ProductDetailScreen from "../features/products/screens/ProductDetailScreen";
 
 export type DashboardStackParamList = {
   Tabs: undefined;

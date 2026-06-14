@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../screens/dashboard/HomeScreen";
-import CartScreen from "../screens/dashboard/CartScreen";
-import ProfileScreen from "../screens/dashboard/ProfileScreen";
-import { HomeIcon, CartIcon, ProfileIcon } from "../components/icons/TabIcons";
-import { useCartStore } from "../store/useCartStore";
+import HomeScreen from "../features/products/screens/HomeScreen";
+import CartScreen from "../features/cart/screens/CartScreen";
+import ProfileScreen from "../features/profile/screens/ProfileScreen";
+import { HomeIcon, CartIcon, ProfileIcon } from "../shared/components/icons/TabIcons";
+import { useCartStore } from "../features/cart/store/useCartStore";
 import AppTheme from "../theme";
 
 export type TabParamList = {

@@ -2,7 +2,7 @@ import { ActivityIndicator, View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AuthNavigator from "./AuthNavigator";
 import DashboardNavigator from "./DashboardNavigator";
-import { useAuthStore } from "../store/useAuthStore";
+import { useAuthStore } from "../features/auth/store/useAuthStore";
 
 export type RootStackParamList = {
   Auth: undefined;
