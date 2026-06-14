@@ -1,44 +1,64 @@
 import { useCallback } from "react";
+import { ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 import styled from "styled-components/native";
 import { FlashList } from "@shopify/flash-list";
-import { useCartStore, CartItem } from "../store/useCartStore";
+import {
+  useCart,
+  useAddToCart,
+  useUpdateCartLine,
+  useRemoveCartLine,
+  useClearCart,
+} from "../graphql";
+import { CartLine } from "../graphql/types";
 import { Container, Header, StateContainer } from "../../../shared/components/containers";
 import { H2, H5, H6 } from "../../../shared/components/typography";
 import Button from "../../../shared/components/buttons/Button";
 import CartCard from "../components/CartCard";
 import CartSummaryCard from "../components/CartSummaryCard";
 
-const BULK_DISCOUNT_THRESHOLD = 5000;
-
 export default function CartScreen() {
   const theme = useTheme();
-  const items = useCartStore((s) => s.items);
-  const addItem = useCartStore((s) => s.addItem);
-  const removeItem = useCartStore((s) => s.removeItem);
-  const updateQuantity = useCartStore((s) => s.updateQuantity);
-  const clearCart = useCartStore((s) => s.clearCart);
-  const subtotal = useCartStore((s) => s.getSubtotal());
-  const total = useCartStore((s) => s.getFinalTotal());
-  const itemCount = useCartStore((s) => s.getItemCount());
+  const { cart, isLoading } = useCart();
+  const { addToCart } = useAddToCart();
+  const { updateLine } = useUpdateCartLine();
+  const { removeLine } = useRemoveCartLine();
+  const { clearCart } = useClearCart();
 
-  const hasDiscount = subtotal > BULK_DISCOUNT_THRESHOLD;
+  const lines = cart?.lines ?? [];
+  const subtotal = cart?.subtotal ?? 0;
+  const total = cart?.total ?? 0;
+  const totalQuantity = cart?.totalQuantity ?? 0;
+  const hasDiscount = subtotal !== total;
   const discountAmount = subtotal - total;
 
   const renderItem = useCallback(
-    ({ item }: { item: CartItem }) => (
+    ({ item }: { item: CartLine }) => (
       <CartCard
         item={item}
-        onIncrease={() => addItem(item.product)}
-        onDecrease={() => updateQuantity(item.product.id, item.quantity - 1)}
-        onRemove={() => removeItem(item.product.id)}
+        onIncrease={() => addToCart(item.variantId)}
+        onDecrease={() => updateLine(item.id, item.quantity - 1)}
+        onRemove={() => removeLine(item.id)}
       />
     ),
-    [addItem, updateQuantity, removeItem]
+    [addToCart, updateLine, removeLine],
   );
 
-  if (items.length === 0) {
+  if (isLoading) {
+    return (
+      <Container>
+        <Header>
+          <H2 weight="bold">My Cart</H2>
+        </Header>
+        <StateContainer>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+        </StateContainer>
+      </Container>
+    );
+  }
+
+  if (lines.length === 0) {
     return (
       <Container>
         <Header>
@@ -66,15 +86,14 @@ export default function CartScreen() {
           <Button label="Clear All" variant="ghost" danger onPress={clearCart} />
         </TitleRow>
         <H6 color="text">
-          {itemCount} item{itemCount !== 1 ? "s" : ""}
+          {totalQuantity} item{totalQuantity !== 1 ? "s" : ""}
         </H6>
       </Header>
 
       <FlashList
-        data={items}
-        keyExtractor={(item) => String(item.product.id)}
+        data={lines}
+        keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        estimatedItemSize={102}
         contentContainerStyle={{ padding: 16 }}
         showsVerticalScrollIndicator={false}
       />
@@ -95,4 +114,3 @@ const TitleRow = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
-

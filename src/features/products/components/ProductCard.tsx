@@ -3,23 +3,19 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ProductCardUI from "./ProductCardUI";
 import type { Product } from "../types";
-
-import { useCartStore } from "../../cart/store/useCartStore";
-import {
-  isPremium,
-  isLowStock,
-  canAddToCart,
-} from "../../cart/utils/productRules";
+import { useAddToCart, useCart } from "../../cart/graphql";
+import { isPremium, isLowStock, canAddToCart } from "../../cart/utils/productRules";
 import { DashboardStackParamList } from "../../../navigation/DashboardNavigator";
 
 type Nav = NativeStackNavigationProp<DashboardStackParamList>;
 
 const ProductCard = memo(({ product }: { product: Product }) => {
   const navigation = useNavigation<Nav>();
-  const addItem = useCartStore((s) => s.addItem);
-  const cartQuantity = useCartStore(
-    (s) => s.items.find((i) => i.product.id === product.id)?.quantity ?? 0,
-  );
+  const { addToCart } = useAddToCart();
+  const { cart } = useCart();
+
+  const cartQuantity =
+    cart?.lines.find((l) => l.productId === product.id)?.quantity ?? 0;
 
   return (
     <ProductCardUI
@@ -28,7 +24,7 @@ const ProductCard = memo(({ product }: { product: Product }) => {
       premium={isPremium(product)}
       lowStock={isLowStock(product)}
       eligible={canAddToCart(product)}
-      onAddToCart={() => addItem(product)}
+      onAddToCart={() => addToCart(product.variantId)}
       onPress={() =>
         navigation.navigate("ProductDetail", { productId: product.id })
       }

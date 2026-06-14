@@ -2,8 +2,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../features/products/screens/HomeScreen";
 import CartScreen from "../features/cart/screens/CartScreen";
 import ProfileScreen from "../features/profile/screens/ProfileScreen";
-import { HomeIcon, CartIcon, ProfileIcon } from "../shared/components/icons/TabIcons";
-import { useCartStore } from "../features/cart/store/useCartStore";
+import {
+  HomeIcon,
+  CartIcon,
+  ProfileIcon,
+} from "../shared/components/icons/TabIcons";
+import { useCart } from "../features/cart/graphql";
 import AppTheme from "../theme";
 
 export type TabParamList = {
@@ -15,10 +19,16 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 
 export default function TabNavigator() {
-  const itemCount = useCartStore((s) => s.getItemCount());
+  const { cart } = useCart();
+  const itemCount = cart?.totalQuantity ?? 0;
 
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false, tabBarActiveTintColor: AppTheme.colors.primary }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: AppTheme.colors.primary,
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -36,7 +46,13 @@ export default function TabNavigator() {
             <CartIcon color={color} size={size} />
           ),
           tabBarBadge: itemCount > 0 ? itemCount : undefined,
-          tabBarBadgeStyle: { fontSize: 9, minWidth: 16, height: 16, lineHeight: 16, top: 4 },
+          tabBarBadgeStyle: {
+            fontSize: 9,
+            minWidth: 16,
+            height: 16,
+            lineHeight: 16,
+            top: 4,
+          },
         }}
       />
       <Tab.Screen

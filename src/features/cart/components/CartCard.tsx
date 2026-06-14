@@ -2,13 +2,13 @@ import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
 import styled from "styled-components/native";
-import { CartItem } from "../store/useCartStore";
+import { CartLine } from "../graphql/types";
 import { H5, H6 } from "../../../shared/components/typography";
 import IconButton from "../../../shared/components/buttons/IconButton";
 import { toRand } from "../../../shared/utils/currency";
 
 export interface CartCardProps {
-  item: CartItem;
+  item: CartLine;
   onIncrease: () => void;
   onDecrease: () => void;
   onRemove: () => void;
@@ -21,19 +21,19 @@ export default function CartCard({
   onRemove,
 }: CartCardProps) {
   const theme = useTheme();
-  const atMax = item.quantity >= item.product.stock;
+  const atMax = item.quantity >= item.stock;
 
   return (
     <ItemCard>
-      <ItemImage source={{ uri: item.product.thumbnail }} resizeMode="cover" />
+      <ItemImage source={{ uri: item.thumbnail }} resizeMode="cover" />
       <ItemInfo>
         <H6 weight="semiBold" numberOfLines={2}>
-          {item.product.title}
+          {item.title}
         </H6>
         <H5 weight="bold" color="primary">
-          {toRand(item.product.price * item.quantity)}
+          {toRand(item.price * item.quantity)}
         </H5>
-        <H6 color="text">{toRand(item.product.price)} each</H6>
+        <H6 color="text">{toRand(item.price)} each</H6>
       </ItemInfo>
       <ItemActions>
         <IconButton

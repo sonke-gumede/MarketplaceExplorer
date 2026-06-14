@@ -73,6 +73,7 @@ export const mapGQLToProduct = (node: GQLProductNode): Product => {
 
   return {
     id,
+    variantId: variant?.id ?? "",
     title: node.title,
     description: node.description,
     category: node.productType || "General",

@@ -1,5 +1,6 @@
 export interface Product {
   id: number;
+  variantId: string;
   title: string;
   brand?: string;
   category: string;
