@@ -1,6 +1,5 @@
 import { create } from "zustand";
-
-export type SortOption = "price_asc" | "price_desc" | "rating_desc" | "";
+import type { SortOption } from "../types";
 
 interface FilterState {
   search: string;

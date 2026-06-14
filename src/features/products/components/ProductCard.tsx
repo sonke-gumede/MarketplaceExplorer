@@ -2,9 +2,14 @@ import { memo } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ProductCardUI from "./ProductCardUI";
-import { Product } from "../api/products";
+import type { Product } from "../types";
+
 import { useCartStore } from "../../cart/store/useCartStore";
-import { isPremium, isLowStock, canAddToCart } from "../../cart/utils/productRules";
+import {
+  isPremium,
+  isLowStock,
+  canAddToCart,
+} from "../../cart/utils/productRules";
 import { DashboardStackParamList } from "../../../navigation/DashboardNavigator";
 
 type Nav = NativeStackNavigationProp<DashboardStackParamList>;

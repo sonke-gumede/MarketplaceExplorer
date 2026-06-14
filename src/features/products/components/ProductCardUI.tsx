@@ -3,8 +3,8 @@ import { Image } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
-import { Product } from "../api/products";
 import { H4, H5, H6 } from "../../../shared/components/typography";
+import type { Product } from "../types";
 import Button from "../../../shared/components/buttons/Button";
 import { toRand } from "../../../shared/utils/currency";
 

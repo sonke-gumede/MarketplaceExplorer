@@ -21,8 +21,8 @@ import ProductCard from "../components/ProductCard";
 import { useFilterStore } from "../store/useFilterStore";
 import { useDebounceSearch } from "../hooks/useDebounceSearch";
 import SortPicker from "../components/SortPicker";
-import { Product } from "../api/products";
 import { useGetProducts } from "../graphql";
+import type { Product } from "../types";
 
 export default function HomeScreen() {
   const theme = useTheme();

@@ -11,7 +11,6 @@ export { default as SortPicker } from "./components/SortPicker";
 
 // Store
 export { useFilterStore } from "./store/useFilterStore";
-export type { SortOption } from "./store/useFilterStore";
 
 // Hooks
 export { useDebounceSearch } from "./hooks/useDebounceSearch";
@@ -23,7 +22,7 @@ export {
   useGetRelatedProducts,
 } from "./graphql";
 
-// API types
+// Types
 export type {
   Product,
   ProductDetail,
@@ -32,10 +31,5 @@ export type {
   ProductsResponse,
   SortBy,
   SortOrder,
-} from "./api/products";
-export {
-  fetchProducts,
-  fetchCategories,
-  fetchProductById,
-  PAGE_LIMIT,
-} from "./api/products";
+  SortOption,
+} from "./types";

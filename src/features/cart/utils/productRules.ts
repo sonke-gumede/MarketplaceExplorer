@@ -1,4 +1,4 @@
-import { Product } from "../../products/api/products";
+import { Product } from "../../products/types";
 
 // Rule A: Premium if rating >= 4.5 AND price >= $1000
 export const isPremium = (p: Product) => p.rating >= 4.5 && p.price >= 1000;

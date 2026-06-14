@@ -1,4 +1,4 @@
-import { Product, ProductDetail } from "../api/products";
+import { Product, ProductDetail } from "../types";
 
 export interface GetProductsVariables {
   first: number;
